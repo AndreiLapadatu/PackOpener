@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -24,48 +24,49 @@ interface PlayerCard {
   imageUrl?: string;
 }
 
-// Mock data - replace with API call
-const mockCards: PlayerCard[] = [
-  {
-    id: 1,
-    name: 'Cristiano Ronaldo',
-    team: 'Al Nassr',
-    league: 'Saudi Pro League',
-    overall: 86,
-    rarity: 'gold',
-    imageUrl: 'https://example.com/ronaldo.jpg'
-  },
-  // Add more mock cards here
-];
+const getRarityColor = (rarity: string) => {
+  switch (rarity) {
+    case 'gold':
+      return '#FFD700';
+    case 'silver':
+      return '#C0C0C0';
+    case 'bronze':
+      return '#CD7F32';
+    default:
+      return '#ffffff';
+  }
+};
 
 const Collection = () => {
+  const [cards, setCards] = useState<PlayerCard[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [rarityFilter, setRarityFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('overall');
 
-  const getRarityColor = (rarity: string) => {
-    switch (rarity) {
-      case 'gold':
-        return '#FFD700';
-      case 'silver':
-        return '#C0C0C0';
-      case 'bronze':
-        return '#CD7F32';
-      default:
-        return '#ffffff';
-    }
-  };
+  useEffect(() => {
+    const savedCards = JSON.parse(localStorage.getItem('userCards') || '[]');
+    setCards(savedCards);
+  }, []);
 
-  const filteredCards = mockCards
-    .filter(card => 
-      card.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (rarityFilter === 'all' || card.rarity === rarityFilter)
-    )
+  const filteredCards = cards
+    .filter((card) => {
+      const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          card.team.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          card.league.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesRarity = rarityFilter === 'all' || card.rarity === rarityFilter;
+      return matchesSearch && matchesRarity;
+    })
     .sort((a, b) => {
-      if (sortBy === 'overall') {
-        return b.overall - a.overall;
+      switch (sortBy) {
+        case 'overall':
+          return b.overall - a.overall;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'team':
+          return a.team.localeCompare(b.team);
+        default:
+          return 0;
       }
-      return a.name.localeCompare(b.name);
     });
 
   return (
@@ -76,7 +77,7 @@ const Collection = () => {
       
       <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         <TextField
-          label="Search Players"
+          label="Search cards"
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -98,30 +99,27 @@ const Collection = () => {
         </FormControl>
 
         <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel>Sort By</InputLabel>
+          <InputLabel>Sort by</InputLabel>
           <Select
             value={sortBy}
-            label="Sort By"
+            label="Sort by"
             onChange={(e) => setSortBy(e.target.value)}
           >
             <MenuItem value="overall">Rating</MenuItem>
             <MenuItem value="name">Name</MenuItem>
+            <MenuItem value="team">Team</MenuItem>
           </Select>
         </FormControl>
       </Box>
 
       <Grid container spacing={3}>
         {filteredCards.map((card) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={card.id}>
-            <Card 
-              sx={{ 
+          <Grid item xs={12} sm={6} md={4} lg={3} key={`${card.id}-${Math.random()}`}>
+            <Card
+              sx={{
                 height: '100%',
-                background: `linear-gradient(45deg, #1a1a1a 30%, #2a2a2a 90%)`,
+                background: 'linear-gradient(45deg, #1a1a1a 30%, #2a2a2a 90%)',
                 border: `1px solid ${getRarityColor(card.rarity)}`,
-                transition: 'transform 0.2s',
-                '&:hover': {
-                  transform: 'scale(1.02)',
-                }
               }}
             >
               <CardContent>
@@ -154,14 +152,13 @@ const Collection = () => {
                     }}
                   />
                 </Box>
-                
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h6" gutterBottom align="center">
                   {card.name}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="text.secondary" align="center">
                   {card.team}
                 </Typography>
-                <Typography color="text.secondary" variant="body2">
+                <Typography color="text.secondary" variant="body2" align="center">
                   {card.league}
                 </Typography>
               </CardContent>
@@ -169,6 +166,14 @@ const Collection = () => {
           </Grid>
         ))}
       </Grid>
+
+      {filteredCards.length === 0 && (
+        <Box sx={{ mt: 4, textAlign: 'center' }}>
+          <Typography variant="h6" color="text.secondary">
+            No cards found. Try different filters or buy some packs!
+          </Typography>
+        </Box>
+      )}
     </Container>
   );
 };

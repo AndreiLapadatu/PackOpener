@@ -23,6 +23,7 @@ code {
 
 .card-flip.flipped {
   transform: rotateY(180deg);
+  animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 .card-front,
@@ -83,5 +84,20 @@ code {
   }
   100% {
     transform: translateX(100%) rotate(45deg);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #FFD700,
+                0 0 20px #FFD700;
+  }
+  to {
+    box-shadow: 0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #FFD700,
+                0 0 40px #FFD700;
   }
 } 
