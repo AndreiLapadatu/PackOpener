@@ -21,6 +21,7 @@ interface PlayerCard {
   overall: number;
   rarity: 'bronze' | 'silver' | 'gold';
   imageUrl?: string;
+  instanceId?: string;
 }
 
 const packs: PackType[] = [
@@ -51,27 +52,162 @@ const packs: PackType[] = [
   }
 ];
 
-// Sample player pool (you would typically fetch this from your backend)
+// Update the playerPool with more players and images
 const playerPool = {
   gold: [
-    { id: 1, name: 'Cristiano Ronaldo', team: 'Al Nassr', league: 'Saudi Pro League', overall: 86, rarity: 'gold' as const },
-    { id: 2, name: 'Mohamed Salah', team: 'Liverpool', league: 'Premier League', overall: 89, rarity: 'gold' as const },
-    // Add more gold players...
+    { 
+      id: 1, 
+      name: 'Cristiano Ronaldo', 
+      team: 'Al Nassr', 
+      league: 'Saudi Pro League', 
+      overall: 86, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p20801.png'
+    },
+    { 
+      id: 2, 
+      name: 'Mohamed Salah', 
+      team: 'Liverpool', 
+      league: 'Premier League', 
+      overall: 89, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p209331.png'
+    },
+    { 
+      id: 3, 
+      name: 'Kevin De Bruyne', 
+      team: 'Manchester City', 
+      league: 'Premier League', 
+      overall: 91, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p192985.png'
+    },
+    { 
+      id: 4, 
+      name: 'Kylian Mbappé', 
+      team: 'Paris Saint-Germain', 
+      league: 'Ligue 1', 
+      overall: 91, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p231747.png'
+    },
+    { 
+      id: 5, 
+      name: 'Robert Lewandowski', 
+      team: 'Barcelona', 
+      league: 'La Liga', 
+      overall: 90, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p188545.png'
+    },
+    { 
+      id: 6, 
+      name: 'Virgil van Dijk', 
+      team: 'Liverpool', 
+      league: 'Premier League', 
+      overall: 89, 
+      rarity: 'gold' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p203376.png'
+    }
   ],
   silver: [
-    { id: 101, name: 'Tim Ream', team: 'Fulham', league: 'Premier League', overall: 74, rarity: 'silver' as const },
-    { id: 102, name: 'Danny Welbeck', team: 'Brighton', league: 'Premier League', overall: 73, rarity: 'silver' as const },
-    // Add more silver players...
+    { 
+      id: 101, 
+      name: 'Tim Ream', 
+      team: 'Fulham', 
+      league: 'Premier League', 
+      overall: 74, 
+      rarity: 'silver' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p189615.png'
+    },
+    { 
+      id: 102, 
+      name: 'Danny Welbeck', 
+      team: 'Brighton', 
+      league: 'Premier League', 
+      overall: 73, 
+      rarity: 'silver' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p186146.png'
+    },
+    { 
+      id: 103, 
+      name: 'Scott McTominay', 
+      team: 'Manchester United', 
+      league: 'Premier League', 
+      overall: 74, 
+      rarity: 'silver' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p221491.png'
+    },
+    { 
+      id: 104, 
+      name: 'Divock Origi', 
+      team: 'AC Milan', 
+      league: 'Serie A', 
+      overall: 74, 
+      rarity: 'silver' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p200950.png'
+    },
+    { 
+      id: 105, 
+      name: 'Sergi Roberto', 
+      team: 'Barcelona', 
+      league: 'La Liga', 
+      overall: 74, 
+      rarity: 'silver' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p198141.png'
+    }
   ],
   bronze: [
-    { id: 201, name: 'John Smith', team: 'League Two FC', league: 'League Two', overall: 65, rarity: 'bronze' as const },
-    { id: 202, name: 'James Wilson', team: 'League One United', league: 'League One', overall: 67, rarity: 'bronze' as const },
-    // Add more bronze players...
+    { 
+      id: 201, 
+      name: 'Harvey Blair', 
+      team: 'Liverpool', 
+      league: 'Premier League', 
+      overall: 64, 
+      rarity: 'bronze' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p246174.png'
+    },
+    { 
+      id: 202, 
+      name: 'Kaide Gordon', 
+      team: 'Liverpool', 
+      league: 'Premier League', 
+      overall: 64, 
+      rarity: 'bronze' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p246266.png'
+    },
+    { 
+      id: 203, 
+      name: 'Luke Mbete', 
+      team: 'Manchester City', 
+      league: 'Premier League', 
+      overall: 63, 
+      rarity: 'bronze' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p246104.png'
+    },
+    { 
+      id: 204, 
+      name: 'Shea Charles', 
+      team: 'Manchester City', 
+      league: 'Premier League', 
+      overall: 62, 
+      rarity: 'bronze' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p247819.png'
+    },
+    { 
+      id: 205, 
+      name: 'Rico Lewis', 
+      team: 'Manchester City', 
+      league: 'Premier League', 
+      overall: 64, 
+      rarity: 'bronze' as const,
+      imageUrl: 'https://www.fifplay.com/img/fifa/23/players/p246103.png'
+    }
   ]
 };
 
 const Store = () => {
-  const { coins, updateCoins } = useAuth();
+  const { coins, updateCoins, user } = useAuth();
   const [openPack, setOpenPack] = useState<boolean>(false);
   const [currentPack, setCurrentPack] = useState<PackType | null>(null);
   const [packCards, setPackCards] = useState<PlayerCard[]>([]);
@@ -110,11 +246,18 @@ const Store = () => {
       cards.push({ ...player });
     }
 
+    // Ensure each card has a unique ID for storage
+    const cardsWithUniqueIds = cards.map(card => ({
+      ...card,
+      instanceId: `${card.id}-${Date.now()}-${Math.random()}` // Add unique instance ID
+    }));
+
     // Shuffle the cards
-    return cards.sort(() => Math.random() - 0.5);
+    return cardsWithUniqueIds.sort(() => Math.random() - 0.5);
   };
 
   const handleBuyPack = (pack: PackType) => {
+    if (!user?.username) return;
     if (coins >= pack.price) {
       updateCoins(-pack.price);
       const cards = generatePackCards(pack);
@@ -122,9 +265,9 @@ const Store = () => {
       setCurrentPack(pack);
       setOpenPack(true);
       
-      // Save cards to local storage
-      const savedCards = JSON.parse(localStorage.getItem('userCards') || '[]');
-      localStorage.setItem('userCards', JSON.stringify([...savedCards, ...cards]));
+      // Save cards to local storage with their images
+      const savedCards = JSON.parse(localStorage.getItem(`userCards_${user.username}`) || '[]');
+      localStorage.setItem(`userCards_${user.username}`, JSON.stringify([...savedCards, ...cards]));
     }
   };
 

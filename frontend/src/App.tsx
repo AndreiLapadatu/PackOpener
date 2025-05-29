@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Store from './pages/Store';
 import Collection from './pages/Collection';
+import GuessPlayer from './pages/GuessPlayer';
 import Auth from './pages/Auth';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -56,6 +57,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Collection />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/guess"
+                element={
+                  <ProtectedRoute>
+                    <GuessPlayer />
                   </ProtectedRoute>
                 }
               />

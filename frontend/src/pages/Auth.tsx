@@ -39,7 +39,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,8 +51,7 @@ const Auth = () => {
         await login(username, password);
         navigate('/');
       } else { // Register
-        // For now, just log them in after registration
-        await login(username, password);
+        await register(username, password);
         navigate('/');
       }
     } catch (err) {

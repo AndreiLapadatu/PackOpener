@@ -33,6 +33,9 @@ const Navbar = () => {
               <Button color="inherit" component={RouterLink} to="/collection">
                 Collection
               </Button>
+              <Button color="inherit" component={RouterLink} to="/guess">
+                Guess Player
+              </Button>
               <Button 
                 color="secondary" 
                 variant="contained"
